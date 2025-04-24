@@ -1,0 +1,46 @@
+<nav class="sidebar" [class.collapsed]="isCollapsed">
+  <!-- Sidebar Logo -->
+  <div class="sidebar-logo">
+    <div *ngIf="!isCollapsed" class="company-logo">
+      <span class="logo-text">Green</span>
+      <span class="logo-text accent">Building</span>
+      <div class="logo-underline"></div>
+    </div>
+    <svg *ngIf="isCollapsed" class="collapsed-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#38A169"/>
+      <path d="M3 11L12 16L21 11" stroke="#38A169" stroke-width="2" stroke-linecap="round"/>
+      <path d="M3 15L12 20L21 15" stroke="#38A169" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  </div>
+    <!-- Toggle Sidebar Button -->
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      <i [class]="isCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'"></i>
+    </button>
+    <!-- Sidebar Menu -->
+    <div class="menu-section">
+      <ul class="menu">
+        <li *ngFor="let item of navItems">
+          <div class="navitem" [routerLink]="item.route" routerLinkActive="active"
+            (click)="onItemClick(item)">
+            <span class="icon">
+              <img *ngIf="item.image " [src]="item.image" alt="{{ item.title }} icon" />
+            </span>
+            <span class="title">
+              <span *ngIf="!isCollapsed">{{ item.title }}</span>
+            </span>
+            </div>
+        </li>
+      </ul>
+    </div>    
+    <!-- Hover Menu (PrimeNG OverlayPanel) -->
+    <p-popover #op>
+      <div class="hover-menu">
+        <li *ngFor="let sub of hoveredSubItems">
+          <div class="navitem" [routerLink]="sub.route" (click)="hideHoverMenu()" [class.active]="isActive(sub.route!)">
+            <img *ngIf="sub.image" [src]="sub.image" alt="{{ sub.title }} icon" />
+            {{ sub.title }}
+          </div>
+        </li>
+      </div>
+    </p-popover>
+  </nav>

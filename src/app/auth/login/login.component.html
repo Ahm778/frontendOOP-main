@@ -1,0 +1,69 @@
+<div class="auth-container">
+  <div class="logo-container">
+    <div class="company-logo">
+      <span class="logo-text">Green</span>
+      <span class="logo-text accent">Building</span>
+      <div class="logo-underline"></div>
+    </div>
+  </div>
+
+  <div class="auth-header">
+    <h2><strong>Welcome Back</strong></h2>
+    <p class="auth-subtitle">Please enter your details to access your account</p>
+    <div class="auth-divider">
+      <span class="divider-line"></span>
+      <span class="divider-line"></span>
+    </div>
+  </div>
+
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form">
+    <!-- Champ Email -->
+    <div class="form-group floating-input">
+      <input pInputText 
+             id="email" 
+             type="text" 
+             formControlName="email" 
+             placeholder=" " 
+             class="custom-input"/>
+      <label for="email">Email Address</label>
+      <i class="input-icon pi pi-envelope"></i>
+    </div>
+
+    <!-- Champ Password -->
+    <div class="form-group floating-input ">
+      <input id="password"
+                  pInputText
+                  type="password" 
+                  formControlName="password" 
+                  placeholder=" "
+                  class="custom-input"
+                  />
+      <label for="password">Password</label>
+      <i class="input-icon pi pi-lock"></i>
+      <div class="password-actions">
+        <a (click)="goToForgotPassword()" class="forgot-password">Forgot password?</a>
+      </div>
+    </div>
+
+    <button type="submit" class="green-button" [disabled]="loading">
+      <span class="button-content">
+        {{ loading ? '🔄 Authenticating...' : 'Continue' }}
+        <i class="pi pi-arrow-right" [ngClass]="{'spin': loading}"></i>
+      </span>
+      <span class="button-background"></span>
+    </button>
+
+    <div class="signup-link">
+      New to our platform? 
+      <strong (click)="goToSignUp()">Create Account</strong>
+      <i class="pi pi-arrow-up-right external-link"></i>
+    </div>
+  </form>
+
+  <div class="security-badge">
+    <i class="pi pi-shield"></i>
+    <span>256-bit SSL Encryption</span>
+  </div>
+</div>
+
+<p-toast></p-toast>

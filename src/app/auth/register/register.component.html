@@ -1,0 +1,205 @@
+<div class="auth-container">
+  <div class="logo-container">
+    <div class="company-logo">
+      <span class="logo-text">Green</span>
+      <span class="logo-text accent">Building</span>
+      <div class="logo-underline"></div>
+    </div>
+  </div>
+
+  <div class="auth-header">
+    <h2><strong>Create Your Account</strong></h2>
+    <p class="auth-subtitle">Please enter your details to join our platform</p>
+    <div class="auth-divider">
+      <span class="divider-line"></span>
+      <span class="divider-line"></span>
+    </div>
+  </div>
+
+  <form [formGroup]="signUpForm" (ngSubmit)="signUp()" class="auth-form">
+    <!-- Stepper -->
+    <p-stepper [value]="1" class="custom-stepper">
+      <p-step-list>
+        <p-step [value]="1">Account Info</p-step>
+        <p-step [value]="2">Profile Details</p-step>
+      </p-step-list>
+      <p-step-panels>
+        <p-step-panel [value]="1">
+          <ng-template #content let-activateCallback="activateCallback">
+            <!-- Email -->
+            <div class="form-group floating-input">
+              <input pInputText 
+                     id="email" 
+                     type="email" 
+                     formControlName="email" 
+                     placeholder=" " 
+                     class="custom-input"/>
+              <label for="email">Email Address</label>
+              <i class="input-icon pi pi-envelope"></i>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group floating-input">
+              <input id="password" 
+                          formControlName="password" 
+                          pInputText
+                          type="password"
+                          placeholder=" "
+                          class="custom-input"/>
+              <label for="password">Password</label>
+              <i class="input-icon pi pi-lock"></i>
+              <small class="password-hint">Use at least 6 characters with numbers and letters</small>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group floating-input">
+              <input id="confirmPassword" 
+                          formControlName="confirmPassword" 
+                          pInputText
+                          type="password"
+                          placeholder=" "
+                          class="custom-input">
+              <label for="confirmPassword">Confirm Password</label>
+              <i class="input-icon pi pi-lock"></i>
+            </div>
+
+            <!-- Next Button -->
+            <button type="button" class="green-button" (click)="activateCallback(2)">
+              <span class="button-content">
+                Continue
+                <i class="pi pi-arrow-right"></i>
+              </span>
+              <span class="button-background"></span>
+            </button>
+          </ng-template>
+        </p-step-panel>
+
+        <p-step-panel [value]="2">
+          <ng-template #content let-activateCallback="activateCallback">
+            <!-- Profile Image Upload -->
+            <div class="file-upload">
+              <div class="file-upload-content">
+                <p-avatar [image]="profileImage" size="xlarge" shape="circle" class="avatar-image"/>
+                <div class="upload-button-wrapper">
+                  <p-fileUpload
+                    mode="basic" 
+                    chooseLabel="Choose Image" 
+                    chooseIcon="pi pi-upload" 
+                    name="profileImage"
+                    url="/api/upload" 
+                    accept="image/*" 
+                    maxFileSize="1000000"
+                    (onSelect)="onFileSelect($event)"
+                    styleClass="custom-file-upload">
+                  </p-fileUpload>
+                </div>
+              </div>
+            </div>
+
+            <!-- Username -->
+            <div class="form-group floating-input">
+              <input pInputText 
+                     id="username" 
+                     type="text" 
+                     formControlName="username" 
+                     placeholder=" " 
+                     class="custom-input"/>
+              <label for="username">Username</label>
+              <i class="input-icon pi pi-user"></i>
+            </div>
+
+            <!-- Role Dropdown -->
+            <div class="form-group floating-input">
+              <p-dropdown [options]="roles" 
+                          optionLabel="name" 
+                          formControlName="role" 
+                          placeholder="Select Role"
+                          class="custom-dropdown">
+              </p-dropdown>
+              <label class="dropdown-label">Role</label>
+              <i class="input-icon pi pi-briefcase"></i>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group floating-input">
+              <input pInputText 
+                     id="phoneNumber" 
+                     type="tel" 
+                     formControlName="phoneNumber" 
+                     placeholder=" " 
+                     class="custom-input"/>
+              <label for="phoneNumber">Phone Number</label>
+              <i class="input-icon pi pi-phone"></i>
+            </div>
+
+            <!-- Date of Birth -->
+            <div class="form-group floating-input">
+              <p-calendar id="dateOfBirth" 
+                          formControlName="dateOfBirth" 
+                         
+                          placeholder=" "
+                          class="custom-calendar">
+              </p-calendar>
+              <label for="dateOfBirth">Date of Birth</label>
+              <i class="input-icon pi pi-calendar"></i>
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group floating-input">
+              <p-dropdown [options]="gender"
+                         formControlName="gender" 
+                         placeholder="Select Gender"
+                         class="custom-dropdown">
+              </p-dropdown>
+              <label class="dropdown-label">Gender</label>
+              <i class="input-icon pi pi-users"></i>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group floating-input">
+              <textarea pInputTextarea
+                        id="description" 
+                        formControlName="description" 
+                        placeholder=" "
+                        rows="5"
+                        class="custom-textarea">
+              </textarea>
+              <label for="description">Description</label>
+              <i class="input-icon pi pi-align-left"></i>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+              <button type="button" class="outline-button" (click)="activateCallback(1)">
+                <span class="button-content">
+                  <i class="pi pi-arrow-left"></i>
+                  Previous
+                </span>
+              </button>
+              <button type="submit" class="green-button" [disabled]="loading">
+                <span class="button-content">
+                  {{ loading ? '🔄 Creating Account...' : 'Sign Up' }}
+                  <i class="pi pi-arrow-right" [ngClass]="{'spin': loading}"></i>
+                </span>
+                <span class="button-background"></span>
+              </button>
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-panels>
+    </p-stepper>
+
+    <div class="login-link">
+      Already have an account? 
+      <strong (click)="goToLogIn()">Log In</strong>
+      <i class="pi pi-arrow-up-right external-link"></i>
+    </div>
+  </form>
+
+  <div class="security-badge">
+    <i class="pi pi-shield"></i>
+    <span>256-bit SSL Encryption</span>
+  </div>
+</div>
+
+<p-toast></p-toast>

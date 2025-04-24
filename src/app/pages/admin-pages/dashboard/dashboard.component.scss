@@ -1,0 +1,19 @@
+h3{
+  text-align: center;
+}
+.simple-metrics{
+justify-content: center;
+align-items: center;
+gap: 30px;
+}
+/* Add this to your component's SCSS file */
+::ng-deep {
+  .chart-legend {
+    .legend-labels {
+      width: 90px !important;
+      .legend-label {
+        color: #333 !important;
+      }
+    }
+  }
+}
