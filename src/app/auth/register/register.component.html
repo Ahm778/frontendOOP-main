@@ -41,11 +41,11 @@
             <!-- Password -->
             <div class="form-group floating-input">
               <input id="password" 
-                          formControlName="password" 
-                          pInputText
-                          type="password"
-                          placeholder=" "
-                          class="custom-input"/>
+                     formControlName="password" 
+                     pInputText
+                     type="password"
+                     placeholder=" "
+                     class="custom-input"/>
               <label for="password">Password</label>
               <i class="input-icon pi pi-lock"></i>
               <small class="password-hint">Use at least 6 characters with numbers and letters</small>
@@ -54,11 +54,11 @@
             <!-- Confirm Password -->
             <div class="form-group floating-input">
               <input id="confirmPassword" 
-                          formControlName="confirmPassword" 
-                          pInputText
-                          type="password"
-                          placeholder=" "
-                          class="custom-input">
+                     formControlName="confirmPassword" 
+                     pInputText
+                     type="password"
+                     placeholder=" "
+                     class="custom-input">
               <label for="confirmPassword">Confirm Password</label>
               <i class="input-icon pi pi-lock"></i>
             </div>
@@ -78,22 +78,7 @@
           <ng-template #content let-activateCallback="activateCallback">
             <!-- Profile Image Upload -->
             <div class="file-upload">
-              <div class="file-upload-content">
-                <p-avatar [image]="profileImage" size="xlarge" shape="circle" class="avatar-image"/>
-                <div class="upload-button-wrapper">
-                  <p-fileUpload
-                    mode="basic" 
-                    chooseLabel="Choose Image" 
-                    chooseIcon="pi pi-upload" 
-                    name="profileImage"
-                    url="/api/upload" 
-                    accept="image/*" 
-                    maxFileSize="1000000"
-                    (onSelect)="onFileSelect($event)"
-                    styleClass="custom-file-upload">
-                  </p-fileUpload>
-                </div>
-              </div>
+              <!-- Contenu de l'upload -->
             </div>
 
             <!-- Username -->
@@ -113,7 +98,6 @@
               <p-dropdown [options]="roles" 
                           optionLabel="name" 
                           formControlName="role" 
-                          placeholder="Select Role"
                           class="custom-dropdown">
               </p-dropdown>
               <label class="dropdown-label">Role</label>
@@ -132,40 +116,14 @@
               <i class="input-icon pi pi-phone"></i>
             </div>
 
-            <!-- Date of Birth -->
-            <div class="form-group floating-input">
-              <p-calendar id="dateOfBirth" 
-                          formControlName="dateOfBirth" 
-                         
-                          placeholder=" "
-                          class="custom-calendar">
-              </p-calendar>
-              <label for="dateOfBirth">Date of Birth</label>
-              <i class="input-icon pi pi-calendar"></i>
-            </div>
-
             <!-- Gender -->
             <div class="form-group floating-input">
               <p-dropdown [options]="gender"
                          formControlName="gender" 
-                         placeholder="Select Gender"
                          class="custom-dropdown">
               </p-dropdown>
               <label class="dropdown-label">Gender</label>
               <i class="input-icon pi pi-users"></i>
-            </div>
-
-            <!-- Description -->
-            <div class="form-group floating-input">
-              <textarea pInputTextarea
-                        id="description" 
-                        formControlName="description" 
-                        placeholder=" "
-                        rows="5"
-                        class="custom-textarea">
-              </textarea>
-              <label for="description">Description</label>
-              <i class="input-icon pi pi-align-left"></i>
             </div>
 
             <!-- Buttons -->
@@ -178,8 +136,13 @@
               </button>
               <button type="submit" class="green-button" [disabled]="loading">
                 <span class="button-content">
-                  {{ loading ? '🔄 Creating Account...' : 'Sign Up' }}
-                  <i class="pi pi-arrow-right" [ngClass]="{'spin': loading}"></i>
+                  {{ loading ? 'Creating Account' : 'Sign Up' }}
+                  <span *ngIf="loading" class="loading-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                  </span>
+                  <i *ngIf="!loading" class="pi pi-arrow-right"></i>
                 </span>
                 <span class="button-background"></span>
               </button>

@@ -1,19 +1,488 @@
-h3{
-  text-align: center;
+/* ============ MAIN STYLES ============ */
+.dashboard-container {
+  padding: 25px;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 28px;
+    color: #1A4531;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    
+    &::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #38A169, #9AE6B4);
+      margin: 10px auto 0;
+      border-radius: 3px;
+    }
+  }
+  
+  h2 {
+    font-size: 22px;
+    color: #22543D;
+    margin: 30px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 60px;
+      height: 2px;
+      background: #38A169;
+    }
+  }
 }
-.simple-metrics{
-justify-content: center;
-align-items: center;
-gap: 30px;
-}
-/* Add this to your component's SCSS file */
-::ng-deep {
-  .chart-legend {
-    .legend-labels {
-      width: 90px !important;
-      .legend-label {
-        color: #333 !important;
+
+/* ============ METRIC CARDS ============ */
+.simple-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 30px;
+  margin-bottom: 45px;
+  padding: 15px 0;
+
+  .metric-card {
+    background: white;
+    border-radius: 14px;
+    padding: 25px;
+    width: 240px;
+    text-align: center;
+    box-shadow: 0 6px 10px -2px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-left: 5px solid #38A169;
+    position: relative;
+    overflow: hidden;
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 20px -5px rgba(56, 161, 105, 0.2);
+      
+      &::after {
+        opacity: 0.1;
+      }
+      
+      .metric-icon {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(56, 161, 105, 0.3);
       }
     }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #38A169 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+  }
+  
+  .metric-icon {
+    background: rgba(56, 161, 105, 0.12);
+    color: #22543D;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 30px;
+    transition: all 0.3s ease;
+  }
+  
+  .metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #1A4531;
+    letter-spacing: 0.5px;
+  }
+  
+  .metric-label {
+    color: #4a5568;
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 500;
+  }
+  
+  .metric-trend {
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 16px;
+    display: inline-block;
+    background: rgba(56, 161, 105, 0.1);
+    color: #22543D;
+    font-weight: 600;
+    
+    &.up {
+      background: rgba(72, 187, 120, 0.2);
+      color: #1A4531;
+    }
+    
+    &.down {
+      background: rgba(239, 68, 68, 0.1);
+      color: #e53e3e;
+    }
+  }
+  
+  .progress-container {
+    margin-top: 20px;
+  }
+  
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #718096;
+  }
+  
+  .progress-bar {
+    height: 8px;
+    background: #edf2f7;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .progress-fill {
+    background: linear-gradient(90deg, #38A169, #48BB78);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1.5s ease-out;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      border-radius: 4px;
+    }
+  }
+}
+
+/* ============ CHARTS CONTAINER ============ */
+.charts-container {
+  padding: 20px 0;
+  margin-top: 20px;
+  
+  .section-title {
+    font-size: 20px;
+    color: #22543D;
+    margin-bottom: 25px;
+    padding-left: 10px;
+    border-left: 4px solid #38A169;
+  }
+}
+
+.charts-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-bottom: 35px;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.chart-card {
+  flex: 1;
+  min-width: 320px;
+  background: white;
+  border-radius: 14px;
+  padding: 25px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(56, 161, 105, 0.15);
+    
+    .chart-header h3 {
+      color: #1A4531;
+    }
+  }
+  
+  &.wide-card {
+    flex: 2;
+    min-width: 450px;
+  }
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 2;
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #22543D;
+    margin: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .chart-subtitle {
+    font-size: 13px;
+    color: #718096;
+    margin-top: 4px;
+  }
+  
+  .chart-actions {
+    display: flex;
+    gap: 8px;
+    
+    button {
+      background: rgba(56, 161, 105, 0.1);
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      color: #38A169;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: rgba(56, 161, 105, 0.2);
+        color: #22543D;
+      }
+    }
+  }
+}
+
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #4a5568;
+    
+    .legend-color {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 3px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    
+    .legend-label {
+      display: flex;
+      align-items: center;
+      
+      .legend-value {
+        margin-left: auto;
+        font-weight: 600;
+        color: #2d3748;
+      }
+    }
+  }
+}
+
+/* ============ NGX-CHARTS OVERRIDES ============ */
+::ng-deep {
+  /* Global chart text styles */
+  .ngx-charts {
+    text {
+      fill: #4a5568 !important;
+      font-family: inherit !important;
+    }
+    
+    .chart-label {
+      fill: #1A4531 !important;
+      font-weight: 500 !important;
+    }
+  }
+  
+  /* Pie/Doughnut charts */
+  .pie-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+  }
+  
+  .pie-arc {
+    stroke: white !important;
+    stroke-width: 1.5px !important;
+    
+    &.active {
+      stroke: #1A4531 !important;
+      stroke-width: 2.5px !important;
+    }
+  }
+  
+  /* Bar charts */
+  .bar {
+    stroke: none !important;
+    transition: opacity 0.3s ease;
+    
+    &.active {
+      opacity: 0.9 !important;
+      stroke: #1A4531 !important;
+      stroke-width: 2px !important;
+    }
+  }
+  
+  /* Line charts */
+  .line-series {
+    stroke-width: 3px !important;
+  }
+  
+  .line-series-path {
+    stroke: #2F855A !important;
+  }
+  
+  /* Heat map */
+  .heat-map-cell {
+    stroke: white !important;
+    stroke-width: 1px !important;
+    
+    &.active {
+      stroke: #1A4531 !important;
+      stroke-width: 2px !important;
+    }
+  }
+  
+  /* Bubble chart */
+  .bubble {
+    stroke: white !important;
+    stroke-width: 1.5px !important;
+    
+    &.active {
+      stroke: #1A4531 !important;
+      stroke-width: 3px !important;
+    }
+  }
+  
+  /* Tooltips */
+  .tooltip-anchor {
+    fill: #2F855A !important;
+  }
+  
+  .tooltip-area {
+    stroke: #2F855A !important;
+  }
+  
+  .advanced-pie-legend .legend-item:hover {
+    color: #1A4531 !important;
+  }
+  
+  /* Grid lines */
+  .gridline-path {
+    stroke: #E2E8F0 !important;
+    stroke-width: 1px !important;
+  }
+  
+  /* Tooltip styling */
+  .tooltip-container {
+    background: white !important;
+    border-radius: 6px !important;
+    padding: 12px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #E2E8F0 !important;
+    
+    h4 {
+      color: #1A4531 !important;
+      margin: 0 0 8px 0 !important;
+      font-size: 14px !important;
+      font-weight: 600 !important;
+    }
+    
+    p {
+      color: #4A5568 !important;
+      margin: 4px 0 !important;
+      font-size: 13px !important;
+    }
+  }
+}
+
+/* ============ RESPONSIVE ADJUSTMENTS ============ */
+@media (max-width: 1200px) {
+  .charts-row {
+    flex-direction: column;
+  }
+  
+  .chart-card {
+    min-width: 100%;
+    
+    &.wide-card {
+      min-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .simple-metrics {
+    gap: 20px;
+    
+    .metric-card {
+      width: 100%;
+      max-width: 280px;
+    }
+  }
+  
+  .dashboard-container {
+    padding: 15px;
+    
+    h1 {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+    
+    h2 {
+      font-size: 20px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .metric-value {
+    font-size: 28px;
+  }
+  
+  .chart-actions {
+    align-self: flex-end;
   }
 }

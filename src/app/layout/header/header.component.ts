@@ -26,6 +26,7 @@ import { NavigationService } from '../../shared/services/navigation.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ConfirmationService } from 'primeng/api';
 import { ManagersComponent } from '../../pages/admin-pages/managers/managers.component';
+
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -34,17 +35,17 @@ import { ManagersComponent } from '../../pages/admin-pages/managers/managers.com
     AvatarModule,
     AvatarGroupModule,
     ButtonModule,
-    AvvvatarsComponent,
     BadgeModule,
-    TooltipModule
-    , InputTextModule, ButtonModule, MenuModule, InputTextModule,
-
+    TooltipModule,
+    InputTextModule,
+    ButtonModule,
+    MenuModule,
+    InputTextModule,
   ],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-    providers: [ConfirmationService,DialogService]
+  providers: [ConfirmationService, DialogService]
 })
-
 export class HeaderComponent implements OnInit {
   selectedNavItem$!: Observable<NavItem | null>;
   adminName: string = 'Dr. Inconnu';
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit {
     private navigationService: NavigationService,
     private dialogService: DialogService
   ) { }
+
   ngOnInit() {
     // Set title from current route
     this.router.events
@@ -134,14 +136,15 @@ export class HeaderComponent implements OnInit {
       document.exitFullscreen();
     }
   }
+
   openManageManagersDialog() {
-      const ref = this.dialogService.open(ManagersComponent, {
-        header: 'Manage Managers',
-        width: '70%',
-        height: '70%',
-        modal: true,
-        contentStyle: { overflow: 'auto' }, // Enable scrolling if content is long
-        baseZIndex: 10000, // Adjust if needed
-      });
-    }
+    const ref = this.dialogService.open(ManagersComponent, {
+      header: 'Manage Managers',
+      width: '70%',
+      height: '70%',
+      modal: true,
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+  }
 }

@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -28,8 +29,8 @@ export class DomainService {
     return this.http.get<any>(`${this.apiUrl}/${id}` , { headers: this.getAuthHeaders()});
   }
 
-  createDomain(Domain: any): Observable<any> {
-    return this.http.post<any>(this.apiUrl, Domain, {
+  createDomain(domainData: { domainName: string }): Observable<any> {
+    return this.http.post<any>(this.apiUrl, domainData, {
       headers: this.getAuthHeaders()
     });
   }

@@ -24,17 +24,20 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { SearchPipe } from '../../../shared/pipes/search.pipe';
 import { DialogService } from 'primeng/dynamicdialog';
 import { EmployersComponent } from './dialogs/employers/employers.component';
+import { EmployerService } from './services/employer.service';
+import { Employer } from '../../../shared/models/employer.model';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-trainers',
   standalone: true,
   imports: [TableModule, DialogModule, ButtonModule, InputTextModule, AvatarModule, TagModule, FileUploadModule, FormsModule,
-    DropdownModule, SelectButtonModule, IconFieldModule, InputIconModule, CommonModule,
+    DropdownModule, SelectButtonModule, IconFieldModule, InputIconModule, CommonModule, ToastModule,
     CardModule, InputGroupModule, InputGroupAddonModule, HttpClientModule, DatePickerModule, SearchPipe
   ],
   templateUrl: './trainers.component.html',
   styleUrl: './trainers.component.scss',
-  providers: [TrainerService, ConfirmationService,DialogService]
+  providers: [TrainerService, ConfirmationService, DialogService, EmployerService]
 })
 export class TrainersComponent {
   searchTerm: string = ''
@@ -49,7 +52,8 @@ export class TrainersComponent {
     gender: 'FEMALE',
     description: '',
     dateOfBirth: '',
-    profilePicture: ''
+    profilePicture: '',
+    phoneNumber: ''
   };
   trainerToDelete: any;
   selectedTrainerDetails: any;
@@ -59,7 +63,8 @@ export class TrainersComponent {
   displayDetailsDialog = false;
   isAddTrainer = true;
   loading = false;
-
+  selectedEmployer: any;
+  trainerIdToEdit: any
   // Pagination
   rows = 10;
   first = 0;
@@ -82,13 +87,15 @@ export class TrainersComponent {
     { label: 'Trainer', value: 'TRAINER' },
     { label: 'Admin', value: 'ADMIN' }
   ];
-
+  employers: Employer[] = [];
   constructor(
     private trainerService: TrainerService,
-    private toastService: ToastServiceService , private dialogService: DialogService) { }
+    private toastService: ToastServiceService, private dialogService: DialogService
+    , private employerService: EmployerService) { }
 
   ngOnInit(): void {
     this.loadTrainers();
+    this.getAllEmployers()
   }
 
   loadTrainers(page: number = 0): void {
@@ -97,7 +104,7 @@ export class TrainersComponent {
       next: (trainers) => {
         this.trainers = trainers;
         console.log(this.trainers);
-        this.totalRecords = trainers.length; // Adjust based on your API pagination
+        this.totalRecords = trainers.length;
         this.loading = false;
       },
       error: (err) => {
@@ -120,9 +127,8 @@ export class TrainersComponent {
       trainerType: 'INTERNAL',
       employerName: '',
       username: '',
-      email: '',
-      role: 'TRAINER'
-    };
+      email: ''    };
+    this.selectedEmployer = null
     this.displayTrainerDialog = true;
   }
 
@@ -136,6 +142,7 @@ export class TrainersComponent {
 
   openDetails(trainer: Trainer): void {
     this.selectedTrainerDetails = trainer;
+    console.log("trainer to edit", this.selectedTrainerDetails);
     this.getTrainerById(trainer.trainerId, 'details')
     this.displayDetailsDialog = true;
   }
@@ -151,10 +158,8 @@ export class TrainersComponent {
         profilePicture: this.trainerForm.profilePicture || '',
         description: this.trainerForm.description,
         trainerType: this.trainerForm.trainerType,
-        employerName: this.trainerForm.employerName
+        employerName: this.selectedEmployer.employerName
       };
-      console.log(requestBody);
-
       this.trainerService.createTrainer(requestBody).subscribe({
         next: () => {
           this.toastService.showSuccess('Trainer created successfully');
@@ -167,9 +172,9 @@ export class TrainersComponent {
         }
       });
     } else {
-      alert("here update")
-      if (!this.trainerForm.trainerId) return;
-      this.trainerService.updateTrainer(this.trainerForm.trainerId, this.trainerForm).subscribe({
+      if (!this.trainerIdToEdit) return;
+      console.log(this.trainerForm);
+      this.trainerService.updateTrainer(this.trainerIdToEdit, this.trainerForm).subscribe({
         next: () => {
           this.toastService.showSuccess('Trainer updated successfully');
           this.loadTrainers();
@@ -213,7 +218,7 @@ export class TrainersComponent {
   }
   openDeleteDialog(trainer: Trainer): void {
     this.displayDeleteDialog = true
-    this.trainerToDelete = trainer
+    this.trainerToDelete = trainer    
   }
 
   confirmDeleteTrainer(): void {
@@ -237,6 +242,7 @@ export class TrainersComponent {
       this.trainerService.getTrainerById(id).subscribe({
         next: (trainer) => {
           this.selectedTrainerDetails = trainer
+          console.log(this.selectedTrainerDetails);
         },
         error: (err) => {
           this.toastService.showError(err.error.message);
@@ -264,6 +270,15 @@ export class TrainersComponent {
     this.trainerForm.trainerType = trainer.trainerType
     this.trainerForm.gender = trainer.user.gender
     this.trainerForm.employerName = trainer.employerName
+    if (trainer.employerName) {
+      this.selectedEmployer = this.employers.find(emp =>
+        emp.employerName === trainer.employerName
+      );
+      if (!this.selectedEmployer) {
+        this.selectedEmployer = { employerName: trainer.employerName };
+      }
+      this.trainerIdToEdit = trainer.trainerId
+    }
 
   }
   openManageEmployersDialog() {
@@ -274,6 +289,16 @@ export class TrainersComponent {
       modal: true,
       contentStyle: { overflow: 'auto' }, // Enable scrolling if content is long
       baseZIndex: 10000, // Adjust if needed
+    });
+  }
+  getAllEmployers() {
+    this.employerService.getAllEmployers().subscribe({
+      next: (employers) => {
+        this.employers = employers
+      },
+      error: (err) => {
+        this.toastService.showError(err.error.message);
+      }
     });
   }
 }

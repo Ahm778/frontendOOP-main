@@ -1,292 +1,367 @@
-/* Sidebar - Modern Glass Morphism */
+/* Variables - Green Building Premium Theme */
+$primary: #38A169;
+$primary-dark: #2F855A;
+$primary-darker: #276749;
+$primary-light: #48BB78;
+$primary-extra-light: #C6F6D5;
+$primary-ultra-light: #F0FFF4;
+
+$text-dark: #000000;
+$text-medium: #4A5568;
+$text-muted: #718096;
+$text-light: #A0AEC0;
+
+$border-light: #E2E8F0;
+$border-medium: #CBD5E0;
+$border-dark: #A0AEC0;
+
+$white: #FFFFFF;
+$background: #F8FAFC;
+$background-dark: #EDF2F7;
+
+$shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+/* Base - Effet de profondeur amélioré */
 .sidebar {
-  z-index: 100;
-  width: 240px;
+  --width-expanded: 160px;
+  --width-collapsed: 84px;
+  
+  width: var(--width-expanded);
   height: 100vh;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: #F8FFF8;
   position: fixed;
-  top: 0;
-  left: 0;
-  padding: 0;
-  box-shadow: 
-    0 4px 30px rgba(0, 0, 0, 0.05),
-    0 0 0 1px rgba(0, 0, 0, 0.02);
-  font-family: 'Inter', sans-serif;
+  border-right: 1px solid $border-light;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border-right: 1px solid rgba(0, 0, 0, 0.03);
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  
+  z-index: 100;
+  box-shadow: $shadow-md;
+
   &.collapsed {
-    width: 80px;
+    width: var(--width-collapsed);
   }
 }
 
-/* Sidebar Logo - Green Building Branding */
-.sidebar-logo {
+/* Header - Design plus premium */
+.sidebar-header {
   padding: 24px 20px;
-  margin-bottom: 8px;
+  position: relative;
+  border-bottom: 1px solid rgba($border-light, 0.6);
+  background: $white;
+  z-index: 2;
+}
+
+.logo-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
-  
-  .company-logo {
+  transition: all 0.3s ease;
+
+  .logo-full {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    
-    .logo-text {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: #2d3748;
-      line-height: 1.1;
-      
-      &.accent {
-        color: #38a169;
+    gap: 10px;
+    transition: all 0.3s ease;
+
+    .logo-leaf {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: $primary-ultra-light;
+      border-radius: 8px;
+      padding: 4px;
+      box-shadow: $shadow-sm;
+    }
+
+    .logo-text-container {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+
+      .logo-text {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: $text-dark;
+        letter-spacing: 0.2px;
+      }
+
+      .logo-text-accent {
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: $primary;
+        letter-spacing: 0.2px;
       }
     }
+  }
+
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary-ultra-light;
+    border-radius: 8px;
+    box-shadow: $shadow-sm;
     
-    .logo-underline {
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, #38a169 0%, #48bb78 100%);
-      border-radius: 2px;
-      margin-top: 4px;
+    svg {
+      transition: all 0.3s ease;
     }
   }
-  
-  .collapsed-logo {
-    width: 32px;
-    height: 32px;
-    transition: all 0.3s ease;
-  }
 }
 
-.sidebar.collapsed .sidebar-logo {
-  padding: 24px 0;
-}
-
-/* Toggle Button - Modern SVG Icon */
+/* Toggle Button - Style plus sophistiqué */
 .toggle-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
   position: absolute;
-  top: 20px;
-  right: -12px;
-  width: 24px;
-  height: 24px;
+  top: 24px;
+  right: -14px;
+  width: 28px;
+  height: 28px;
+  background: $white;
+  border: 1px solid $border-light;
   border-radius: 50%;
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 10;
+  box-shadow: $shadow-md;
+  z-index: 3;
   
   &:hover {
-    transform: translateX(2px);
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .toggle-icon {
-    width: 16px;
-    height: 16px;
-    color: #4a5568;
-    transition: all 0.3s ease;
+    background: $primary;
+    border-color: $primary;
     
-    &.collapsed {
-      transform: rotate(180deg);
+    svg path {
+      fill: $white;
     }
   }
-}
 
-/* Menu Section - Elegant Layout */
-.menu-section {
-  padding: 0 12px;
-  flex-grow: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-  
-  &::-webkit-scrollbar {
-    display: none;
+  &:active {
+    transform: scale(0.92);
   }
 }
 
-.menu {
+/* Menu Container - Effet de profondeur */
+.menu-container {
+  flex: 1;
+  padding: 16px 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: $primary-light $white;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-light;
+    border-radius: 3px;
+  }
+}
+
+/* Navigation - Effet moderne */
+.nav-menu {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-/* Navigation Items - Professional Style */
-.navitem {
+.nav-link {
   display: flex;
   align-items: center;
   padding: 12px 16px;
-  cursor: pointer;
   border-radius: 8px;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  color: #4a5568;
+  color: $text-dark;
+  text-decoration: none;
+  transition: all 0.25s ease;
   position: relative;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  
+  overflow: hidden;
+  font-weight: 600;
+  .nav-icon-container {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      transition: all 0.25s ease;
+    }
+  }
+
+  .nav-text {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+
+  .nav-highlight {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba($primary, 0.1) 0%, rgba($primary, 0) 100%);
+    transition: all 0.4s ease;
+    z-index: -1;
+  }
+
   &:hover {
-    background: rgba(56, 161, 105, 0.08);
-    color: #2d3748;
-    
-    .tooltip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateX(0);
+    color: $primary-dark;
+    font-weight: 600;
+    .nav-icon {
+      transform: scale(1.1);
+    }
+
+    .nav-highlight {
+      left: 0;
     }
   }
   
   &.active {
-    background: rgba(56, 161, 105, 0.12);
-    color: #38a169;
-    font-weight: 500;
+    background: $primary-ultra-light;
+    color: $primary-dark;
+    font-weight: 700;
     
-    .icon svg, .icon img {
-      color: #38a169;
-      fill: #38a169;
+    .nav-icon {
+      color: $primary;
+      transform: scale(1.1);
+    }
+
+    .nav-highlight {
+      left: 0;
+      background: linear-gradient(90deg, rgba($primary, 0.15) 0%, rgba($primary, 0) 100%);
     }
   }
 }
 
-/* Icons - Professional SVG Implementation */
-.icon {
-  margin-right: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  
-  svg {
-    width: 100%;
-    height: 100%;
-    color: #718096;
-    transition: all 0.2s ease;
-  }
-  
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-}
-
-.sidebar.collapsed .icon {
-  margin-right: 0;
-  width: 28px;
-  height: 28px;
-}
-
-/* Tooltip for Collapsed State */
-.tooltip {
-  position: absolute;
-  left: calc(100% + 12px);
-  background: #2d3748;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 400;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateX(-5px);
-  transition: all 0.2s ease;
-  z-index: 100;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  
-  &::before {
-    content: '';
-    position: absolute;
-    left: -4px;
-    top: 50%;
-    transform: translateY(-50%);
+/* État réduit - Animation améliorée */
+.sidebar.collapsed {
+  .nav-text {
+    opacity: 0;
     width: 0;
-    height: 0;
-    border-top: 5px solid transparent;
-    border-bottom: 5px solid transparent;
-    border-right: 5px solid #2d3748;
+    margin-left: 0;
+  }
+  
+  .nav-link {
+    justify-content: center;
+    padding: 12px 0;
+  }
+  
+  .nav-icon-container {
+    margin-right: 0;
   }
 }
 
-/* Hover Menu - Enhanced Design */
+/* Hover Menu - Style premium */
 .hover-menu {
-  background-color: white;
+  background-color: $white;
   padding: 8px;
   border-radius: 8px;
   min-width: 200px;
   list-style: none;
   margin: 0;
-  box-shadow: 
-    0 10px 20px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(0, 0, 0, 0.02);
-  
+  box-shadow: $shadow-lg;
+  border: 1px solid $border-light;
+
   li {
     list-style: none;
     margin-bottom: 4px;
     
-    &:last-child {
-      margin-bottom: 0;
-    }
-    
     .navitem {
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #4a5568;
       display: flex;
       align-items: center;
-      gap: 10px;
-      
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: $text-medium;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+
+      .hover-icon-container {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+
+      .hover-text {
+        transition: all 0.2s ease;
+      }
+
+      .hover-highlight {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba($primary, 0.1) 0%, rgba($primary, 0) 100%);
+        transition: all 0.3s ease;
+        z-index: -1;
+      }
+
       &:hover {
-        background: rgba(56, 161, 105, 0.08);
+        color: $primary-dark;
+        
+        .hover-highlight {
+          left: 0;
+        }
       }
       
       &.active {
-        color: #38a169;
-        font-weight: 500;
-      }
-      
-      svg, img {
-        width: 18px;
-        height: 18px;
-        flex-shrink: 0;
+        background: $primary-ultra-light;
+        color: $primary-dark;
+        font-weight: 600;
+        
+        .hover-highlight {
+          left: 0;
+          background: linear-gradient(90deg, rgba($primary, 0.15) 0%, rgba($primary, 0) 100%);
+        }
       }
     }
   }
 }
 
-/* Responsive Adjustments */
+/* Animation de transition */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
-    transform: translateX(-100%);
+    width: var(--width-collapsed);
     
-    &.collapsed {
-      transform: translateX(0);
-      width: 70px;
-    }
-    
-    &.mobile-open {
-      transform: translateX(0);
-      width: 240px;
+    &.expanded {
+      width: var(--width-expanded);
+      box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.5);
     }
   }
 }
